@@ -1840,12 +1840,17 @@ jobs:
     name: Changelog fragments
     uses: ./.github/workflows/changelog.yml
 
+  supply-chain:
+    name: Supply chain
+    uses: ./.github/workflows/supply-chain.yml
+
   required-checks:
     name: Required status checks have passed
     if: always()
     needs:
       - test-success
       - changelog
+      - supply-chain
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
