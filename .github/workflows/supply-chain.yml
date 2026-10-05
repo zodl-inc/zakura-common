@@ -1,30 +1,10 @@
 name: Supply chain
 
+# Pull-request, push, and merge-queue runs come from ci.yml, which calls this
+# workflow on every change so that its "Required status checks have passed"
+# job covers it.
 on:
-  pull_request:
-    branches: [main, "feat/**", "release/**", "agent/**"]
-    paths:
-      - "**/*.rs"
-      - "**/Cargo.toml"
-      - "**/Cargo.lock"
-      - .cargo/**
-      - .github/workflows/supply-chain.yml
-      - deny.toml
-      - rust-toolchain.toml
-      - supply-chain/**
-  push:
-    branches:
-      - main
-    paths:
-      - "**/*.rs"
-      - "**/Cargo.toml"
-      - "**/Cargo.lock"
-      - .cargo/**
-      - .github/workflows/supply-chain.yml
-      - deny.toml
-      - rust-toolchain.toml
-      - supply-chain/**
-  merge_group:
+  workflow_call:
   schedule:
     - cron: "0 8 * * *"
   workflow_dispatch:

@@ -1835,3 +1835,27 @@ jobs:
             udon-benchmarks,
             udon-miri,
             udon-portability
+
+  changelog:
+    name: Changelog fragments
+    uses: ./.github/workflows/changelog.yml
+
+  supply-chain:
+    name: Supply chain
+    uses: ./.github/workflows/supply-chain.yml
+
+  required-checks:
+    name: Required status checks have passed
+    if: always()
+    needs:
+      - test-success
+      - changelog
+      - supply-chain
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Determine whether all required-pass jobs succeeded
+        env:
+          NEEDS: ${{ toJSON(needs) }}
+        run: |
+          echo "${NEEDS}" | jq -e '[ .[] | .result == "success" ] | all'

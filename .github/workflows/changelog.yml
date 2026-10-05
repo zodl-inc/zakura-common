@@ -5,14 +5,10 @@ name: Changelog fragments
 # into the per-crate changelogs at release assembly. See
 # docs/changelog/guidelines.md.
 
+# Pull-request, push, and merge-queue runs come from ci.yml, which calls this
+# workflow so that its "Required status checks have passed" job covers it.
 on:
-  pull_request:
-    branches: [main, "feat/**", "release/**", "agent/**"]
-    types: [opened, synchronize, reopened, labeled, unlabeled]
-  push:
-    branches:
-      - main
-  merge_group:
+  workflow_call:
   workflow_dispatch:
 
 permissions:
